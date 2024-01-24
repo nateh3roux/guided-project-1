@@ -22,7 +22,7 @@ addEventListener("DOMContentLoaded", () => {
   director = document.querySelector("span#director");
   release_date = document.querySelector("span#release_date");
 
-  planets = document.querySelector("span#planet");
+  planets = document.querySelector("#planets>ul");
   characterUl = document.querySelector("#characters>ul");
   const sp = new URLSearchParams(window.location.search);
   const id = sp.get("id");
@@ -44,18 +44,21 @@ async function getFilm(id) {
   renderFilm(film);
 }
 
+// Get character objects
 async function fetchCharacter(filmID) {
   const url = `${baseUrl}/films/${filmID}/characters`;
   const characters = await fetch(url).then((res) => res.json());
   return characters;
 }
 
+// Get Planet Object
 async function fetchPlanets(filmID) {
   const url = `${baseUrl}/films/${filmID}/planets`;
   const planet = await fetch(url).then((res) => res.json());
   return planet;
 }
 
+// Get films object.
 async function fetchFilms(filmID) {
   const url = `${baseUrl}/films/${filmID}`;
   const films = await fetch(url).then((res) => res.json());
@@ -69,13 +72,10 @@ const renderFilm = (film) => {
   episode_id.textContent = film?.episode_id;
   director.textContent = film?.director;
   release_date.textContent = film?.release_date;
-  //   Planet needs work
-  //   const planetsLis = planetsInFilm?.map => ( (pl)
-  //     `<a href="/planet.html?id=${planetsInFilm.id}">${planetsInFilm.name}</a>`;
-  //   );
-  //   planets.innerHTML = `<a href="/planet.html?id=${planetsInFilm.id}">${planetsInFilm.name}</a>`;
+
+  // Adds the planets to a list that is then appdended.
   const planetLis = planetsInFilm?.map(
-    (pl) => `<li><a href="/character.html?id=${pl.id}">${pl.name}</li>`
+    (pl) => `<li><a href="/planet.html?id=${pl.id}">${pl.name}</li>`
   );
 
   const characterLis = characterInFilm?.map(
